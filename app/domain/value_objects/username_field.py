@@ -13,8 +13,8 @@ class UsernameField:
     def __post_init__(self):
         if not self.value:
             raise RequiredFieldException(
-                field_name="username",
-                message="El nombre de usuario no puede estar vacío."
+                message="El campo de username es requerido.",
+                detail="El campo de username no puede ser nulo."
             )
 
         self._validate()
@@ -22,20 +22,19 @@ class UsernameField:
     def _validate(self) -> None:
         if not (3 <= len(self.value) <= 30):
             raise DomainValidationException(
-                f"El nombre de usuario '{self.value}' debe tener\
+                message="Formato de username invalido.",
+                detail=f"El nombre de usuario '{self.value}' debe tener\
                     entre 3 y 30 caracteres.",
-                field="username"
+                code="INVALID_FORMAT"
             )
 
         if not re.match(r"^[a-zA-Z0-9_.]+$", self.value):
             raise DomainValidationException(
-                f"El nombre de usuario '{self.value}' solo puede\
+                message="Formato de username invalido.",
+                field=f"El nombre de usuario '{self.value}' solo puede\
                     contener letras, números, guiones bajos y puntos.",
-                field="username"
+                code="INVALID_FORMAT"
             )
 
     def __str__(self) -> str:
-        """
-        Devuelve la representación en cadena del nombre de usuario.
-        """
         return self.value

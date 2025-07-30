@@ -13,8 +13,8 @@ class DatetimeField:
     def __post_init__(self):
         if self.value is None:
             raise RequiredFieldException(
-                field_name="DatetimeField.value",
-                message="El campo de fecha y hora no puede ser nulo."
+                message="El campo de fecha es requerido.",
+                detail="El campo de fecha y hora no puede ser nulo."
                 )
 
         self._validate()
@@ -31,16 +31,18 @@ class DatetimeField:
                         )
                 except ValueError:
                     raise DomainValidationException(
-                        f"El valor '{self.value}' no es un formato de\
+                        message="Formato de fecha invalido.",
+                        detail=f"El valor '{self.value}' no es un formato de\
                             fecha y hora ISO 8601 válido.",
-                        field="DatetimeField.value"
+                        code="INVALID_FORMAT"
                         )
             else:
                 raise DomainValidationException(
-                    f"El valor '{self.value}' debe ser un objeto\
-                        datetime o una cadena ISO 8601.",
-                    field="DatetimeField.value"
-                    )
+                        message="Formato de fecha invalido.",
+                        detail=f"El valor '{self.value}' no es un formato de\
+                            fecha y hora ISO 8601 válido.",
+                        code="INVALID_FORMAT"
+                        )
 
     def __str__(self) -> str:
         return self.value.isoformat()

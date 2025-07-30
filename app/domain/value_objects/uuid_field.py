@@ -20,7 +20,10 @@ class UUIDField:
 
     def _validate(self) -> None:
         if not self.value:
-            raise RequiredFieldException(self.ID_FIELD_NAME)
+            raise RequiredFieldException(
+                message="El campo de id es requerido.",
+                detail="El campo de id no puede ser nulo."
+            )
 
         if isinstance(self.value, str):
             cleaned_value = self.value.strip()

@@ -14,8 +14,8 @@ class SenderField:
     def __post_init__(self):
         if not self.value:
             raise RequiredFieldException(
-                field_name="sender",
-                message="El campo 'sender' no puede estar vacío."
+                message="El campo de sender es requerido.",
+                detail="El campo de sender no puede ser nulo."
                 )
 
         self._validate()
@@ -23,9 +23,10 @@ class SenderField:
     def _validate(self) -> None:
         if self.value not in self.VALID_TYPES:
             raise DomainValidationException(
-                f"El valor '{self.value}' no es un remitente válido.\
+                message="Formato de sender invalido.",
+                detail=f"El valor '{self.value}' no es un remitente válido.\
                     Debe ser 'user' o 'system'.",
-                field="sender"
+                code="INVALID_FORMAT"
             )
 
     def __str__(self) -> str:

@@ -5,15 +5,16 @@ from typing import Optional
 from app.domain.value_objects import (
     UUIDField,
     EmailField,
-    PasswordField
+    UsernameField,
+    PasswordHashField
 )
 
 
 @dataclass(frozen=True)
 class User:
     email: EmailField
-    username: str
-    password_hash: PasswordField
+    username: UsernameField
+    password_hash: PasswordHashField
 
     id: Optional[UUIDField] = None
     created_at: Optional[datetime] = None
@@ -37,3 +38,9 @@ class User:
             created_at=data.get('created_at'),
             updated_at=data.get('updated_at')
         )
+
+    def to_dict(self) -> dict:
+        return {
+            "email": str(self.email),
+            "username": self.username.value,
+        }

@@ -13,8 +13,8 @@ class EmailField:
     def __post_init__(self):
         if not self.value:
             raise RequiredFieldException(
-                field_name="email",
-                message="El campo 'email' no puede estar vacío."
+                message="El campo de email es requerido.",
+                detail="El campo de email no puede ser nulo."
                 )
 
         self._validate()
@@ -24,8 +24,10 @@ class EmailField:
 
         if not re.match(email_regex, self.value):
             raise DomainValidationException(
-                f"El formato del email '{self.value}' no es válido.",
-                field="email"
+                message="Formato de email invalido.",
+                detail=f"El valor '{self.value}' no es un formato de\
+                    email válido.",
+                code="INVALID_FORMAT"
                 )
 
     def __str__(self):

@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from app.infrastructure.persistence.database import create_db_tables
+from app.infrastructure.routes.user_routes import router as user_router
 
 app = FastAPI(
     title="API de Procesamiento de Mensajes de Chat",
-    description="Una API RESTful simple para procesar y almacenar mensajes de chat.",
+    description="Una API RESTful simple para procesar y\
+        almacenar mensajes de chat.",
     version="1.0.0",
 )
+
 
 @app.on_event("startup")
 def on_startup():
@@ -15,6 +18,10 @@ def on_startup():
     """
     create_db_tables()
     print("Database and tables initialized.")
+
+
+app.include_router(user_router)
+
 
 @app.get("/")
 async def root():
