@@ -82,6 +82,12 @@ Si prefieres ejecutar la aplicación directamente en tu máquina local:
     # uvicorn main:app --reload
     ```
 
+Para verificar que la API se está ejecutando correctamente, en tu navegador o en un cliente como Postman, realiza una petición GET a la URL http://localhost:8000/. Deberías recibir una respuesta de bienvenida.
+
+      {
+      	"message": "Chat Message Processing API is working properly!"
+      }
+
 ## Cómo Ejecutar las Pruebas:
 ### Herramienta utilizada
 pytest: Framework de testing para Python.
@@ -102,12 +108,15 @@ La documentación completa e interactiva de la API está disponible en Swagger U
 
 ### Usuarios
 
+#### Registrar usuario
+
     POST /api/users/register
 
     
 Registra un nuevo usuario en el sistema. Valida las credenciales, hashea la contraseña y guarda el usuario en la base de datos.
 
 Cuerpo de la Solicitud (JSON):
+
     1. email (string, requerido): La dirección de correo electrónico única del usuario.
     2. username (string, requerido): El username de usuario único.
     3. password (string, requerido): La contraseña en texto plano (será hasheada antes de almacenarse).
@@ -118,14 +127,15 @@ Respuesta
     {
         "status": "success",
         "data": {
-            "email": "empanada2@example.com",
-            "username": "empanada2"
+            "email": "carlos@example.com",
+            "username": "carlos"
         }
     }
 
 
 ### Autenticación
 
+#### Login endpoint
 
     POST /api/auth/token
 
@@ -133,6 +143,7 @@ Respuesta
 Permite a un usuario iniciar sesión y obtener un token de acceso JWT (JSON Web Token) para autenticarse en rutas protegidas.
 
 Cuerpo de la Solicitud (JSON):
+
     1. email (string, requerido): El correo electrónico del usuario.
     2. password (string, requerido): La contraseña en texto plano del usuario.
 
@@ -148,6 +159,7 @@ Respuesta
 
 ### Mensajes
 
+#### Registrar Mensaje endpoint
 
     POST /api/messages/
 
@@ -155,6 +167,7 @@ Respuesta
 Crea un nuevo mensaje de chat en el sistema, aplicando validaciones y procesamiento de metadatos. Requiere autenticación.
 
 Cuerpo de la Solicitud (JSON):
+
     1. session_id (string, requerido): Identificador único de la sesión de chat (formato UUID).
     2. content (string, requerido): Contenido del mensaje. El contenido inapropiado será filtrado.
     3. timestamp (string, requerido): Marca de tiempo de cuándo fue enviado el mensaje
@@ -184,6 +197,7 @@ Respuesta
 
 
 
+#### Obtener detalle de un mensaje por ID 
 
     POST /api/messages/detail/{message_id}
 
@@ -194,6 +208,7 @@ Parámetros de Ruta:
     1. message_id (string, requerido): El ID único del mensaje (formato UUID).
 
 Encabezados (para autenticación):
+
     Authorization: Bearer <tu_token_jwt>
 
 Respuesta
@@ -216,6 +231,8 @@ Respuesta
     }
 
 
+#### Obtener mensajes relasionados a una session
+
     POST /api/messages/{session_id}
 
 
@@ -225,11 +242,13 @@ Parámetros de Ruta:
     1. session_id (string, requerido): El ID único de la sesión de chat (formato UUID).
 
 Parámetros de Consulta (Query Parameters):
+
     1. limit (entero, opcional): Número máximo de mensajes a devolver. Debe ser un valor entero positivo (mínimo 1).
     2. offset (entero, opcional): Número de mensajes a omitir desde el inicio de la lista. Debe ser un valor entero no negativo (mínimo 0).
     3. sender (string, opcional): Filtra mensajes por el remitente. Valores permitidos: "user" o "system".
 
 Encabezados (para autenticación):
+
     Authorization: Bearer <tu_token_jwt>
 
 Respuesta
