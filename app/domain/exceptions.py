@@ -74,14 +74,14 @@ class InfrastructureException(BaseApplicationException, Exception):
             detail: Exception = None,
             code: str = "INFRASTRUCTURE_ERROR"
             ):
+        self.message = message
+        self.detail = detail
+        self.code = code
         super().__init__(
             self.message,
             self.detail,
             self.code
         )
-        self.message = message
-        self.detail = detail
-        self.code = code
 
 
 class DatabaseConnectionError(InfrastructureException):

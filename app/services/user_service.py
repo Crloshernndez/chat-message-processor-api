@@ -1,7 +1,7 @@
 import uuid
 from fastapi import Depends
 from passlib.context import CryptContext
-from app.domain.entities import User
+from app.domain.entities.message import User
 from app.domain.ports.user_repository_port import UserRepositoryPort
 
 from app.domain.value_objects import (
@@ -59,6 +59,10 @@ class UserService:
 
         created_user = self._user_repository.create_user(new_user_entity)
         return created_user
+
+    def get_user_by_id(self, user_id: str) -> User:
+        user_uuid_field = UUIDField(user_id)
+        return self._user_repository.get_user_by_id(user_uuid_field)
 
     def authenticate_user(self, user_credentials: dict) -> User:
         email = EmailField(user_credentials.get('email'))

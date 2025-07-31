@@ -1,5 +1,5 @@
 from functools import wraps
-from fastapi import status
+from fastapi import status, HTTPException
 from fastapi.responses import JSONResponse
 from app.domain.exceptions import (
     DomainValidationException,
@@ -17,6 +17,12 @@ def handle_api_exceptions(func):
             return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content=e.to_dict()
+            )
+
+        except HTTPException as e:
+            return JSONResponse(
+                status_code=e.status_code,
+                content=e.detail
             )
 
         except DomainValidationException as e:

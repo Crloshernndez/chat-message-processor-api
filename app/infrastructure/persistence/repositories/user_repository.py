@@ -1,7 +1,7 @@
 from typing import Optional
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from app.domain.entities import User as DomainUser
+from app.domain.entities.user import User as DomainUser
 from app.domain.value_objects import (
     UUIDField,
     EmailField,
@@ -28,6 +28,14 @@ class SQLAlchemyUserRepository(UserRepositoryPort):
         self.db.refresh(db_user)
 
         return self._to_domain_entity(db_user)
+
+    @exception_repository_handlers("obtener usuario por id")
+    def get_user_by_id(self, user_id: UUIDField) -> Optional[DomainUser]:
+        user_orm = self.db.query(UserORM).filter(
+            UserORM.id == str(user_id)
+            ).first()
+
+        return self._to_domain_entity(user_orm)
 
     @exception_repository_handlers("obtener usuario por username")
     def get_user_by_username(

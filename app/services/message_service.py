@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List, Tuple
 from fastapi import Depends
 from app.domain.ports.message_repository_port import MessageRepositoryPort
-from app.domain.entities import Message
+from app.domain.entities.message import Message
 from app.domain.exceptions import (
     DomainValidationException
 )

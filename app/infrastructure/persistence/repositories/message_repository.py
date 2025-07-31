@@ -1,7 +1,7 @@
 from typing import List, Tuple, Optional
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from app.domain.entities import Message as DomainMessage
+from app.domain.entities.message import Message as DomainMessage
 from app.domain.ports.message_repository_port import MessageRepositoryPort
 from app.domain.value_objects import (
     UUIDField,

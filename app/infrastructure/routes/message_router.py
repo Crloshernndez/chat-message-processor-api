@@ -5,11 +5,13 @@ from fastapi import (
     status,
     Query
 )
+from app.domain.entities.user import User as DomainUser
 from app.services.message_service import (
     MessageService,
     get_message_service
 )
 from app.infrastructure.decorators import handle_api_exceptions
+from app.core.auth_dependencies import get_current_user
 
 router = APIRouter(prefix="/messages", tags=["Messages"])
 
@@ -29,7 +31,8 @@ router = APIRouter(prefix="/messages", tags=["Messages"])
 @handle_api_exceptions
 async def register_message_endpoint(
     message_data: Dict[str, Any],
-    message_service: MessageService = Depends(get_message_service)
+    message_service: MessageService = Depends(get_message_service),
+    current_user: DomainUser = Depends(get_current_user)
 ):
     new_message_entity = message_service.register_message(message_data)
 
@@ -54,7 +57,8 @@ async def register_message_endpoint(
 @handle_api_exceptions
 async def get_message_by_id_endpoint(
     message_id: str,
-    message_service: MessageService = Depends(get_message_service)
+    message_service: MessageService = Depends(get_message_service),
+    current_user: DomainUser = Depends(get_current_user)
 ):
     message_entity = message_service.get_message_by_id(message_id)
 
@@ -79,10 +83,17 @@ async def get_message_by_id_endpoint(
 @handle_api_exceptions
 async def get_message_by_session_endpoint(
     session_id: str,
-    limit: Optional[int] = Query(default=50, ge=1, le=100, description="Number of messages to return"),
-    offset: Optional[int] = Query(default=0, ge=0, description="Number of messages to skip"),
-    sender: Optional[str] = Query(default=None, description="Filter by sender"),
-    message_service: MessageService = Depends(get_message_service)
+    limit: Optional[int] = Query(
+        default=50, ge=1, le=100,
+        description="Number of messages to return"),
+    offset: Optional[int] = Query(
+        default=0, ge=0,
+        description="Number of messages to skip"),
+    sender: Optional[str] = Query(
+        default=None,
+        description="Filter by sender"),
+    message_service: MessageService = Depends(get_message_service),
+    current_user: DomainUser = Depends(get_current_user)
 ):
     message_entities, total_count = message_service.get_message_by_session_id(
         session_id=session_id,

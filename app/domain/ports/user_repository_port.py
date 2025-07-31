@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from app.domain.entities import User
+from app.domain.entities.user import User
 from app.domain.value_objects import (
     EmailField,
     UsernameField
@@ -10,6 +10,10 @@ from app.domain.value_objects import (
 class UserRepositoryPort(ABC):
     @abstractmethod
     def create_user(self, user: User) -> User:
+        pass
+
+    @abstractmethod
+    def get_user_by_id(self, user_id: str) -> Optional[User]:
         pass
 
     @abstractmethod

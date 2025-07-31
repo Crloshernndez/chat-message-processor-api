@@ -110,3 +110,112 @@ La documentación completa e interactiva de la API está disponible en Swagger U
         "token_type": "bearer"
     }
     ```
+
+### Mensajes
+    ```bash
+    POST /api/messages/
+    ```
+    Crea un nuevo mensaje de chat en el sistema, aplicando validaciones y procesamiento de metadatos. Requiere autenticación.
+
+    Cuerpo de la Solicitud (JSON):
+        1. session_id (string, requerido): Identificador único de la sesión de chat (formato UUID).
+        2. content (string, requerido): Contenido del mensaje. El contenido inapropiado será filtrado.
+        3. timestamp (string, requerido): Marca de tiempo de cuándo fue enviado el mensaje
+        4. sender (string, requerido): Remitente del mensaje ("user" o "system").
+    
+    Encabezados (para autenticación):
+        Authorization: Bearer <tu_token_jwt>
+
+    Respuesta
+    ```bash
+    {
+        "status": "success",
+        "data": {
+            "message_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+            "session_id": "session-abcdef",
+            "content": "Hola, ¿cómo puedo ayudarte hoy?",
+            "timestamp": "2023-06-15T14:30:00Z",
+            "sender": "user",
+            "metadata": {
+                "word_count": 6,
+                "character_count": 28,
+                "processed_at": "2023-06-15T14:30:05Z"
+            }
+        }
+    }
+    ```
+
+
+    ```bash
+    POST /api/messages/detail/{message_id}
+    ```
+    Recupera un mensaje de chat específico utilizando su identificador único. Requiere autenticación.
+
+    Parámetros de Ruta:
+        1. message_id (string, requerido): El ID único del mensaje (formato UUID).
+    
+    Encabezados (para autenticación):
+        Authorization: Bearer <tu_token_jwt>
+
+    Respuesta
+    ```bash
+    {
+        "status": "success",
+        "data": {
+            "message_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+            "session_id": "session-abcdef",
+            "content": "Hola, ¿cómo puedo ayudarte hoy?",
+            "timestamp": "2023-06-15T14:30:00Z",
+            "sender": "user",
+            "metadata": {
+                "word_count": 6,
+                "character_count": 28,
+                "processed_at": "2023-06-15T14:30:05Z"
+            }
+        }
+    }
+    ```
+
+
+    ```bash
+    POST /api/messages/{session_id}
+    ```
+    Recupera todos los mensajes asociados a un ID de sesión específico, con soporte para paginación y filtrado por remitente. Requiere autenticación.
+
+    Parámetros de Ruta:
+        1. session_id (string, requerido): El ID único de la sesión de chat (formato UUID).
+
+    Parámetros de Consulta (Query Parameters):
+        1. limit (entero, opcional): Número máximo de mensajes a devolver. Debe ser un valor entero positivo (mínimo 1).
+        2. offset (entero, opcional): Número de mensajes a omitir desde el inicio de la lista. Debe ser un valor entero no negativo (mínimo 0).
+        3. sender (string, opcional): Filtra mensajes por el remitente. Valores permitidos: "user" o "system".
+    
+    Encabezados (para autenticación):
+        Authorization: Bearer <tu_token_jwt>
+
+    Respuesta
+    ```bash
+    {
+        "messages": [
+            {
+                "id": "4b0e9f1a-3d2c-4e5f-8a9b-0123456789de",
+                "session_id": "c7f8e9d0-a1b2-4c3d-9e0f-1234567890ab",
+                "content": "Hola, ¿cómo puedo ayudarte hoy ***?",
+                "timestamp": "2023-06-15T14:30:00",
+                "sender": "system",
+                "metadata": {
+                    "word_count": 6,
+                    "character_count": 30,
+                    "processed_at": "2025-07-30T20:56:38.616004"
+                }
+            }
+        ],
+        "pagination": {
+            "total": 1,
+            "limit": 50,
+            "offset": 0,
+            "has_next": false,
+            "has_previous": false
+        }
+    }
+    ```

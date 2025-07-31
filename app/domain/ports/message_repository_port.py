@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.domain.entities import Message
+from app.domain.entities.message import Message
 from app.domain.value_objects import (
     UUIDField
 )

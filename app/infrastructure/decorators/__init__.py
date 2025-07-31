@@ -1,4 +1,4 @@
-from .exception_handlers import handle_api_exceptions
+from .exception_routes_handlers import handle_api_exceptions
 
 
 __all__ = [
