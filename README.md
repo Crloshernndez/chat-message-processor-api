@@ -67,6 +67,18 @@ Si prefieres ejecutar la aplicación directamente en tu máquina local:
     # uvicorn main:app --reload
     ```
 
+### Cómo Ejecutar las Pruebas:
+Puedes ejecutar todas las pruebas con un solo comando utilizando el Makefile del proyecto:
+    ```bash
+    make tests
+    ```
+Este comando ejecutará automáticamente todas las pruebas en el directorio tests/ dentro de tu contenedor de Docker.
+
+Tambien puedes ver la covertura de los test en el codigo el Makefile del proyecto:
+    ```bash
+    make coverage
+    ```
+
 ## Documentacion de la api
 La documentación completa e interactiva de la API está disponible en Swagger UI cuando la aplicación está en ejecución. A continuación, se presenta un resumen de los endpoints principales.
 
