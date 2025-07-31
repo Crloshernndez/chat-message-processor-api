@@ -34,14 +34,14 @@ class DomainValidationException(BaseApplicationException, ValueError):
             detail: str = None,
             code: str = "DOMAIN_VALIDATION_ERROR"
             ):
+        self.message = message
+        self.detail = detail
+        self.code = code
         super().__init__(
             self.message,
             self.detail,
             self.code
         )
-        self.message = message
-        self.detail = detail
-        self.code = code
 
 
 class RequiredFieldException(DomainValidationException):
@@ -59,8 +59,8 @@ class InvalidUUIDException(DomainValidationException):
     """
     def __init__(self):
         self.code = "INVALID_FORMAT"
-        self.message = "Formato de id invalido."
-        self.detail = "El valor del id no es un formato de \
+        self.message = "Formato de ID invalido."
+        self.detail = "El valor del ID no es un formato de \
 uuid válido."
 
 

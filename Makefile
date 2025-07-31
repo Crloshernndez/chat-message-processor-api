@@ -40,6 +40,11 @@ test: build
 	@echo "${GREEN}Ejecutando pruebas dentro del contenedor...${NC}"
 	docker-compose -f $(DOCKER_COMPOSE_FILE) run --rm app pytest
 
+coverage:
+	@echo "Generando reporte de cobertura de código..."
+	docker-compose -f $(DOCKER_COMPOSE_FILE) run --rm app pytest --cov=app tests/
+	@echo "Reporte de cobertura de código generado en la consola.
+
 lint: build
 	@echo "${GREEN}Ejecutando linter (Flake8) dentro del contenedor...${NC}"
 	docker-compose -f $(DOCKER_COMPOSE_FILE) run --rm app flake8 app tests

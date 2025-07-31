@@ -1,7 +1,7 @@
 import uuid
 from fastapi import Depends
 from passlib.context import CryptContext
-from app.domain.entities.message import User
+from app.domain.entities.user import User
 from app.domain.ports.user_repository_port import UserRepositoryPort
 
 from app.domain.value_objects import (

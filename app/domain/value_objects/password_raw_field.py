@@ -13,8 +13,8 @@ class PasswordRawField:
     def __post_init__(self):
         if not self.value:
             raise RequiredFieldException(
-                message="El campo 'password' es requerido.",
-                detail="El campo 'password' no puede estar vacío."
+                message="El campo password es requerido.",
+                detail="El campo password no puede estar vacío."
                 )
 
         self._validate()

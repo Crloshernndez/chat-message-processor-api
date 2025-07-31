@@ -24,15 +24,15 @@ class UsernameField:
             raise DomainValidationException(
                 message="Formato de username invalido.",
                 detail=f"El nombre de usuario '{self.value}' debe tener\
-                    entre 3 y 30 caracteres.",
+entre 3 y 30 caracteres.",
                 code="INVALID_FORMAT"
             )
 
         if not re.match(r"^[a-zA-Z0-9_.]+$", self.value):
             raise DomainValidationException(
                 message="Formato de username invalido.",
-                field=f"El nombre de usuario '{self.value}' solo puede\
-                    contener letras, números, guiones bajos y puntos.",
+                detail=f"El nombre de usuario '{self.value}' solo puede \
+contener letras, números, guiones bajos y puntos.",
                 code="INVALID_FORMAT"
             )
 
