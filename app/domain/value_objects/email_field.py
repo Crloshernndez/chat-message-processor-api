@@ -25,8 +25,7 @@ class EmailField:
         if not re.match(email_regex, self.value):
             raise DomainValidationException(
                 message="Formato de email invalido.",
-                detail=f"El valor '{self.value}' no es un formato de\
-                    email válido.",
+                detail="El email no es un formato válido.",
                 code="INVALID_FORMAT"
                 )
 

@@ -35,14 +35,16 @@ class UserService:
 
         if self._user_repository.get_user_by_email(email):
             raise DomainValidationException(
-                "Usuario ya se encuentra registrado",
-                detail=f"Ya existe un usuario con el email '{email}'."
+                message="Usuario ya se encuentra registrado",
+                detail=f"Ya existe un usuario con el email '{email}'.",
+                code="USER_ALREADY_REGISTERED"
             )
         if self._user_repository.get_user_by_username(username):
             raise DomainValidationException(
-                "Usuario ya se encuentra registrado",
+                message="Usuario ya se encuentra registrado",
                 detail=f"Ya existe un usuario con el nombre de\
-                    usuario '{username}'."
+                    usuario '{username}'.",
+                code="USER_ALREADY_REGISTERED"
             )
 
         hashed_password = PasswordHashField(
@@ -58,6 +60,29 @@ class UserService:
 
         created_user = self._user_repository.create_user(new_user_entity)
         return created_user
+
+    def authenticate_user(self, user_credentials: dict) -> User:
+        email = EmailField(user_credentials.get('email'))
+        password = PasswordRawField(user_credentials.get('password'))
+
+        user = self._user_repository.get_user_by_email(email)
+        if not user:
+            raise DomainValidationException(
+                message="Credenciales incorrectas.",
+                detail="Se ingresaron credenciales incorrectas",
+                code="INVALID_CREDENTIALS"
+            )
+        if not self._verify_password(
+            password.value,
+            user.password_hash.value
+        ):
+            raise DomainValidationException(
+                message="Credenciales incorrectas.",
+                detail="Se ingresaron credenciales incorrectas",
+                code="INVALID_CREDENTIALS"
+            )
+
+        return user
 
     def _get_password_hash(self, password: str) -> str:
         return pwd_context.hash(password)

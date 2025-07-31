@@ -1,7 +1,8 @@
 # chat-message-processor-api
 Message Processing API
 
-## Ejecución con Docker
+## Configuracion de la api
+### Ejecución con Docker
 Para ejecutar la aplicación usando Docker y Docker Compose:
 
 1.  Asegúrate de tener Docker Desktop (o Docker Engine y Docker Compose) instalado en tu sistema.
@@ -34,7 +35,7 @@ Para ejecutar la aplicación usando Docker y Docker Compose:
     ```
 
 
-## Ejecución con Docker
+### Ejecución sin Docker
 Si prefieres ejecutar la aplicación directamente en tu máquina local:
 
 1.  Asegúrate de tener Python 3.10+ instalado.
@@ -64,4 +65,27 @@ Si prefieres ejecutar la aplicación directamente en tu máquina local:
     # Para Windows
     # .\venv\Scripts\activate
     # uvicorn main:app --reload
+    ```
+
+## Documentacion de la api
+La documentación completa e interactiva de la API está disponible en Swagger UI cuando la aplicación está en ejecución. A continuación, se presenta un resumen de los endpoints principales.
+
+### Usuarios
+    ```bash
+    POST /api/users/register
+    ```
+    Registra un nuevo usuario en el sistema. Valida las credenciales, hashea la contraseña y guarda el usuario en la base de datos.
+
+    Cuerpo de la Solicitud (JSON):
+        1. email (string, requerido): La dirección de correo electrónico única del usuario.
+        2. username (string, requerido): El username de usuario único.
+        3. password (string, requerido): La contraseña en texto plano (será hasheada antes de almacenarse).
+                                        contraseña debe ser mayor a 6 digitos, tener un caracter mayuscula y uno minuscula.
+
+    Respuesta
+    ```bash
+    {
+	"email": "empanada1@example.com",
+	"username": "empanada1"
+    }
     ```

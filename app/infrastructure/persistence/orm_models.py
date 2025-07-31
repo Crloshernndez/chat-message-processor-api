@@ -49,8 +49,8 @@ class MessageORM(Base, IdMixin, TimestampMixin):
     content = Column(String)
     timestamp = Column(DateTime)
     sender = Column(String)
-    word_count = Column(Integer),
-    character_count = Column(Integer),
+    word_count = Column(Integer)
+    character_count = Column(Integer)
     processed_at = Column(DateTime)
 
     def __ref__(self):
