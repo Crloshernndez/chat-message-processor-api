@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Session
 from typing import Optional
-
+from fastapi import Depends
+from sqlalchemy.orm import Session
 from app.domain.entities import User as DomainUser
 from app.domain.value_objects import (
     UUIDField,
@@ -8,19 +8,19 @@ from app.domain.value_objects import (
     UsernameField,
     PasswordHashField,
 )
-
 from app.domain.ports.user_repository_port import UserRepositoryPort
-
 from app.infrastructure.persistence.orm_models import UserORM
-
 from app.infrastructure.persistence.database import get_db
-from fastapi import Depends
+from app.infrastructure.decorators.exception_repository_handlers import (
+    exception_repository_handlers
+)
 
 
 class SQLAlchemyUserRepository(UserRepositoryPort):
     def __init__(self, db: Session):
         self.db = db
 
+    @exception_repository_handlers("crear usuario")
     def create_user(self, user: DomainUser) -> DomainUser:
         db_user = self._to_orm_model(user)
         self.db.add(db_user)
@@ -29,6 +29,7 @@ class SQLAlchemyUserRepository(UserRepositoryPort):
 
         return self._to_domain_entity(db_user)
 
+    @exception_repository_handlers("obtener usuario por username")
     def get_user_by_username(
             self,
             username: UsernameField
@@ -39,6 +40,7 @@ class SQLAlchemyUserRepository(UserRepositoryPort):
 
         return self._to_domain_entity(user_orm)
 
+    @exception_repository_handlers("obtener usuario por email")
     def get_user_by_email(self, email: EmailField) -> Optional[DomainUser]:
         user_orm = self.db.query(UserORM).filter(
             UserORM.email == email.value

@@ -32,15 +32,15 @@ class DatetimeField:
                 except ValueError:
                     raise DomainValidationException(
                         message="Formato de fecha invalido.",
-                        detail=f"El valor '{self.value}' no es un formato de\
-                            fecha y hora ISO 8601 válido.",
+                        detail=f"El valor '{self.value}' no es un formato de \
+fecha y hora ISO 8601 válido.",
                         code="INVALID_FORMAT"
                         )
             else:
                 raise DomainValidationException(
                         message="Formato de fecha invalido.",
-                        detail=f"El valor '{self.value}' no es un formato de\
-                            fecha y hora ISO 8601 válido.",
+                        detail=f"El valor '{self.value}' no es un \
+formato de fecha y hora ISO 8601 válido.",
                         code="INVALID_FORMAT"
                         )
 

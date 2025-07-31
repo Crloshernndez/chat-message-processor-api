@@ -1,8 +1,9 @@
+import uuid
+from fastapi import Depends
+from passlib.context import CryptContext
 from app.domain.entities import User
 from app.domain.ports.user_repository_port import UserRepositoryPort
-from app.infrastructure.persistence.repositories.user_repository import (
-    get_sqlalchemy_user_repository
-)
+
 from app.domain.value_objects import (
     UUIDField,
     EmailField,
@@ -10,13 +11,11 @@ from app.domain.value_objects import (
     PasswordRawField,
     PasswordHashField
 )
-
-from app.domain.exceptions import (
-    DomainValidationException
+from app.domain.exceptions import DomainValidationException
+from app.infrastructure.persistence.repositories.user_repository import (
+    get_sqlalchemy_user_repository
 )
-from fastapi import Depends
-from passlib.context import CryptContext
-import uuid
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

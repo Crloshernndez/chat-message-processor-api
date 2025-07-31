@@ -31,9 +31,9 @@ class UUIDField:
                 uuid_obj = uuid.UUID(cleaned_value)
                 object.__setattr__(self, 'value', uuid_obj)
             except (ValueError, TypeError):
-                raise InvalidUUIDException(self.ID_FIELD_NAME)
+                raise InvalidUUIDException()
         elif not isinstance(self.value, uuid.UUID):
-            raise InvalidUUIDException(self.ID_FIELD_NAME)
+            raise InvalidUUIDException()
 
     def __str__(self) -> str:
         return str(self.value)

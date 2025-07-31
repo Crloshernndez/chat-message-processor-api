@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, status
 from typing import Dict, Any
-from app.infrastructure.decorators import handle_api_exceptions
+from fastapi import APIRouter, Depends, status
 from app.services.user_service import UserService, get_user_service
 from app.core.security import create_access_token
+from app.infrastructure.decorators import handle_api_exceptions
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 

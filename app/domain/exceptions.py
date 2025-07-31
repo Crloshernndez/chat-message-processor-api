@@ -1,12 +1,9 @@
-class DomainValidationException(ValueError):
-    """
-    Base exception for validation errors within the domain layer.
-    """
+class BaseApplicationException:
     def __init__(
             self,
             message: str,
-            detail: str = None,
-            code: str = "DOMAIN_VALIDATION_ERROR"
+            detail: str,
+            code: str
             ):
         self.message = message
         self.detail = detail
@@ -27,6 +24,26 @@ class DomainValidationException(ValueError):
         }
 
 
+class DomainValidationException(BaseApplicationException, ValueError):
+    """
+    Base exception for validation errors within the domain layer.
+    """
+    def __init__(
+            self,
+            message: str,
+            detail: str = None,
+            code: str = "DOMAIN_VALIDATION_ERROR"
+            ):
+        super().__init__(
+            self.message,
+            self.detail,
+            self.code
+        )
+        self.message = message
+        self.detail = detail
+        self.code = code
+
+
 class RequiredFieldException(DomainValidationException):
     """
     Exception raised when a required field is missing or empty in the domain.
@@ -40,15 +57,52 @@ class InvalidUUIDException(DomainValidationException):
     """
     Exception raised when a value is not a valid UUID format in the domain.
     """
-    def __init__(
-            self,
-            value: str,
-            detail: str = None,
-            message: str = None
-            ):
-        super().__init__(message, detail=detail)
-        self.value = value
+    def __init__(self):
         self.code = "INVALID_FORMAT"
         self.message = "Formato de id invalido."
-        self.detail = f"El valor '{self.value}' no es un formato de\
-                    id válido."
+        self.detail = "El valor del id no es un formato de \
+uuid válido."
+
+
+class InfrastructureException(BaseApplicationException, Exception):
+    """
+    Base exception for all infrastructure-related errors.
+    """
+    def __init__(
+            self,
+            message: str,
+            detail: Exception = None,
+            code: str = "INFRASTRUCTURE_ERROR"
+            ):
+        super().__init__(
+            self.message,
+            self.detail,
+            self.code
+        )
+        self.message = message
+        self.detail = detail
+        self.code = code
+
+
+class DatabaseConnectionError(InfrastructureException):
+    """
+    Exception raised when there's an issue connecting to the database.
+    """
+    def __init__(
+            self,
+            message: str = "Error de conexión a la base de datos.",
+            detail: Exception = None
+            ):
+        super().__init__(message, detail)
+
+
+class DatabaseOperationError(InfrastructureException):
+    """
+    Exception raised when a database operation
+    (e.g., insert, update, delete, query) fails.
+    """
+    def __init__(
+            self,
+            message: str = "Error en operación de base de datos.",
+            detail: Exception = None):
+        super().__init__(message, detail)

@@ -1,10 +1,10 @@
+from typing import Dict, Any
 from fastapi import APIRouter, Depends, status
 from app.services.user_service import (
     UserService,
     get_user_service
 )
 from app.infrastructure.decorators import handle_api_exceptions
-from typing import Dict, Any
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
