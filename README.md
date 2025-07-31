@@ -71,9 +71,9 @@ Si prefieres ejecutar la aplicación directamente en tu máquina local:
 La documentación completa e interactiva de la API está disponible en Swagger UI cuando la aplicación está en ejecución. A continuación, se presenta un resumen de los endpoints principales.
 
 ### Usuarios
-    ```bash
+
     POST /api/users/register
-    ```
+
     Registra un nuevo usuario en el sistema. Valida las credenciales, hashea la contraseña y guarda el usuario en la base de datos.
 
     Cuerpo de la Solicitud (JSON):
@@ -83,7 +83,7 @@ La documentación completa e interactiva de la API está disponible en Swagger U
                                         contraseña debe ser mayor a 6 digitos, tener un caracter mayuscula y uno minuscula.
 
     Respuesta
-    ```bash
+
     {
         "status": "success",
         "data": {
@@ -91,12 +91,12 @@ La documentación completa e interactiva de la API está disponible en Swagger U
             "username": "empanada2"
         }
     }
-    ```
+
 
 ### Autenticación
-    ```bash
+
     POST /api/auth/token
-    ```
+
     Permite a un usuario iniciar sesión y obtener un token de acceso JWT (JSON Web Token) para autenticarse en rutas protegidas.
 
     Cuerpo de la Solicitud (JSON):
@@ -104,17 +104,17 @@ La documentación completa e interactiva de la API está disponible en Swagger U
         2. password (string, requerido): La contraseña en texto plano del usuario.
 
     Respuesta
-    ```bash
+
     {
         "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmOGlkNGZhZS03ZGVjLTExZDAtYTc2NS0wMGEwYzkxZTZiZjYiLCJleHAiOjE2NzgwNTI0MDB9.some_signature_here",
         "token_type": "bearer"
     }
-    ```
+
 
 ### Mensajes
-    ```bash
+
     POST /api/messages/
-    ```
+
     Crea un nuevo mensaje de chat en el sistema, aplicando validaciones y procesamiento de metadatos. Requiere autenticación.
 
     Cuerpo de la Solicitud (JSON):
@@ -127,7 +127,7 @@ La documentación completa e interactiva de la API está disponible en Swagger U
         Authorization: Bearer <tu_token_jwt>
 
     Respuesta
-    ```bash
+
     {
         "status": "success",
         "data": {
@@ -143,12 +143,11 @@ La documentación completa e interactiva de la API está disponible en Swagger U
             }
         }
     }
-    ```
 
 
-    ```bash
+
     POST /api/messages/detail/{message_id}
-    ```
+
     Recupera un mensaje de chat específico utilizando su identificador único. Requiere autenticación.
 
     Parámetros de Ruta:
@@ -158,7 +157,7 @@ La documentación completa e interactiva de la API está disponible en Swagger U
         Authorization: Bearer <tu_token_jwt>
 
     Respuesta
-    ```bash
+
     {
         "status": "success",
         "data": {
@@ -174,12 +173,11 @@ La documentación completa e interactiva de la API está disponible en Swagger U
             }
         }
     }
-    ```
 
 
-    ```bash
+
     POST /api/messages/{session_id}
-    ```
+
     Recupera todos los mensajes asociados a un ID de sesión específico, con soporte para paginación y filtrado por remitente. Requiere autenticación.
 
     Parámetros de Ruta:
@@ -194,7 +192,7 @@ La documentación completa e interactiva de la API está disponible en Swagger U
         Authorization: Bearer <tu_token_jwt>
 
     Respuesta
-    ```bash
+
     {
         "messages": [
             {
@@ -218,4 +216,3 @@ La documentación completa e interactiva de la API está disponible en Swagger U
             "has_previous": false
         }
     }
-    ```
