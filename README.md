@@ -85,7 +85,28 @@ La documentación completa e interactiva de la API está disponible en Swagger U
     Respuesta
     ```bash
     {
-	"email": "empanada1@example.com",
-	"username": "empanada1"
+        "status": "success",
+        "data": {
+            "email": "empanada2@example.com",
+            "username": "empanada2"
+        }
+    }
+    ```
+
+### Autenticación
+    ```bash
+    POST /api/auth/token
+    ```
+    Permite a un usuario iniciar sesión y obtener un token de acceso JWT (JSON Web Token) para autenticarse en rutas protegidas.
+
+    Cuerpo de la Solicitud (JSON):
+        1. email (string, requerido): El correo electrónico del usuario.
+        2. password (string, requerido): La contraseña en texto plano del usuario.
+
+    Respuesta
+    ```bash
+    {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmOGlkNGZhZS03ZGVjLTExZDAtYTc2NS0wMGEwYzkxZTZiZjYiLCJleHAiOjE2NzgwNTI0MDB9.some_signature_here",
+        "token_type": "bearer"
     }
     ```

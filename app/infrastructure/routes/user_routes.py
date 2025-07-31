@@ -1,8 +1,4 @@
-from fastapi import (
-    APIRouter,
-    Depends,
-    status
-)
+from fastapi import APIRouter, Depends, status
 from app.services.user_service import (
     UserService,
     get_user_service
@@ -32,4 +28,7 @@ async def register_user_endpoint(
 ):
     new_user_entity = user_service.register_user(user_data)
 
-    return new_user_entity.to_dict()
+    return {
+        "status": "success",
+        "data": new_user_entity.to_dict()
+        }

@@ -49,3 +49,6 @@ class InvalidUUIDException(DomainValidationException):
         super().__init__(message, detail=detail)
         self.value = value
         self.code = "INVALID_FORMAT"
+        self.message = "Formato de id invalido."
+        self.detail = f"El valor '{self.value}' no es un formato de\
+                    id válido."
