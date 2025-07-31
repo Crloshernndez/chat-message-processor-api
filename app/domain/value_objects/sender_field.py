@@ -25,7 +25,7 @@ class SenderField:
             raise DomainValidationException(
                 message="Formato de sender invalido.",
                 detail=f"El valor '{self.value}' no es un remitente válido.\
-                    Debe ser 'user' o 'system'.",
+Debe ser 'user' o 'system'.",
                 code="INVALID_FORMAT"
             )
 

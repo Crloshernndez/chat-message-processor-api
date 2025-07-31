@@ -5,6 +5,7 @@ from typing import Optional
 from app.domain.value_objects import (
     UUIDField,
     SenderField,
+    ContentField,
     DatetimeField
 )
 
@@ -12,12 +13,12 @@ from app.domain.value_objects import (
 @dataclass(frozen=True)
 class Message:
     session_id: UUIDField
-    content: str
-    timestamp: datetime
+    content: ContentField
+    timestamp: DatetimeField
     sender: SenderField
-    word_count: Optional[int] = None
-    character_count: Optional[int] = None
-    processed_at: Optional[DatetimeField] = None
+    character_count: Optional[int]
+    word_count: Optional[int]
+    processed_at: Optional[DatetimeField]
 
     id: Optional[UUIDField] = None
     created_at: Optional[DatetimeField] = None
@@ -58,14 +59,14 @@ class Message:
         metadata = {
             "word_count": self.word_count,
             "character_count": self.character_count,
-            "processed_at": self.processed_at.isoformat(),
+            "processed_at": self.processed_at.value,
         }
         data = {
             "id": str(self.id),
-            "session_id": self.session_id,
-            "content": self.content,
-            "timestamp": self.timestamp.isoformat(),
-            "sender": self.sender,
+            "session_id": str(self.session_id),
+            "content": self.content.value,
+            "timestamp": self.timestamp.value,
+            "sender": self.sender.value,
             "metadata": metadata
         }
 
